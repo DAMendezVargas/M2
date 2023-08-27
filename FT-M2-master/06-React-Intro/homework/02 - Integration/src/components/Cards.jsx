@@ -1,5 +1,9 @@
 import Card from './Card';
 
+
 export default function Cards(props) {
-   return <div></div>;
+   const key = props.id;
+   const personajes = props.characters;
+   return <div>{personajes.map =((personaje)=>{<Card>{personaje}</Card>})}
+   </div>;
 }
