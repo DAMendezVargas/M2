@@ -9,6 +9,20 @@ var traverseDomAndCollectElements = function (matchFunc, startEl) {
   // usa matchFunc para identificar elementos que matchien
 
   // TU CÓDIGO AQUÍ
+  function traverse(element) {
+    if (matchFunc(element)) {
+      resultSet.push(element);
+    }
+
+    var children = element.children;
+    for (var i = 0; i < children.length; i++) {
+      traverse(children[i]);
+    }
+  }
+
+  traverse(startEl);
+
+  return resultSet;
 };
 
 // Detecta y devuelve el tipo de selector
@@ -16,6 +30,15 @@ var traverseDomAndCollectElements = function (matchFunc, startEl) {
 
 var selectorTypeMatcher = function (selector) {
   // tu código aquí
+  if (selector.startsWith("#")) {
+    return "id";
+  } else if (selector.startsWith(".")) {
+    return "class";
+  } else if (selector.includes(".")) {
+    return "tag.class";
+  } else {
+    return "tag";
+  }
 };
 
 // NOTA SOBRE LA FUNCIÓN MATCH
@@ -25,12 +48,16 @@ var selectorTypeMatcher = function (selector) {
 
 var matchFunctionMaker = function (selector) {
   var selectorType = selectorTypeMatcher(selector);
-  var matchFunction;
+  var matchFunction = function(element){
+
+
   if (selectorType === "id") {
+    return `#${element.id}` === selector;
   } else if (selectorType === "class") {
   } else if (selectorType === "tag.class") {
   } else if (selectorType === "tag") {
   }
+}
   return matchFunction;
 };
 

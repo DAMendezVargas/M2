@@ -1,6 +1,7 @@
-const toDoItems = [];
+let toDoItems = [];
 
-const nose = document.querySelector('#createdBy');
+
+let nose = document.querySelector('#createdBy');
 
 nose.innerHTML += '  Dalekos';
 
@@ -14,29 +15,26 @@ ToDo.prototype.completeToDo =function(){
   this.complete = true;
 }
 
-function buildToDo(toDo, index) {
+function buildToDo(todo, index) {
   // Tu código acá:
   let toDoShell = document.createElement('div');
-  toDoShell.classname = 'toDoShell';
+  toDoShell.setAttribute('class', 'toDoShell');
   let toDoText = document.createElement('span');
-  toDoText.innerHTML = toDo.description;
-  toDoText.id = index;
+  toDoText.innerHTML = todo.description;
+  toDoText.setAttribute('id', index);
 
-  if(toDo.complete){
-    toDoText.className ='completeText';
+  if(todo.complete){
+    toDoText.setAttribute('class', 'completeText');
   }
   toDoShell.appendChild(toDoText);
 
-  toDoText.addEventListener('click', completeToDo)
   return toDoShell;
   
 }
 
 function buildToDos(toDos) {
   // Tu código acá:
-  let arreglo = toDos.map(function(todo, index){
-    return buildToDo(todo, index)
-  });
+  let arreglo = toDos.map((todo, index)=> buildToDo(todo, index));
 
   return arreglo;
 }
@@ -55,9 +53,8 @@ function displayToDos() {
   let toDoContainer = document.getElementById('toDoContainer');
   toDoContainer.innerHTML = '';
   let results = buildToDos(toDoItems);
-  for (let i = 0; i<results.length ; i++){
-    toDoContainer.appendChild(results[i])
-  }
+
+  results.map(elemento => toDoContainer.appendChild(elemento));
 
 }
 
@@ -72,14 +69,17 @@ function displayToDos() {
 
 function addToDo() {
   // Tu código acá:
-  let input = document.querySelector('#toDoInput');
+  let description = document.getElementById('toDoInput').value;
 
-  if (input.value !== ''){
-    let todo = new ToDo(input.value)
-    toDoItems.push(todo)
-    input.value = '';
-    displayToDos();
-  }
+  let tarea = new ToDo(description);
+
+  toDoItems.push(tarea);
+
+  let inpt = document.getElementById('toDoInput');
+  
+  inpt.value = '';
+  displayToDos();
+
 }
 
 // Agregar un 'Event Listener' para que cada vez que el botón 'AGREGAR' sea clickeado
@@ -89,8 +89,7 @@ function addToDo() {
 
 // Tu código acá:
 
-let button = document.querySelector('#addButton')
-button.addEventListener('click', addToDo)
+document.getElementById('addButton').addEventListener('click', addToDo);
 
 // La función completeToDo se va a ejecutar cuando queramos completar un todo
 // [NOTA: Algunas cuestiones a tener en cuenta
@@ -107,8 +106,8 @@ button.addEventListener('click', addToDo)
 function completeToDo(event) {
   // DESCOMENTAR LA SIGUIENTE LINEA
   const index = event.target.id;
-  toDoItems[index].completeToDo;
-  displayToDos(); 
+  toDoItems[index].completeToDo();
+  displayToDos();
 }
 
 // Una vez que llegaste a este punto verificá que todos los tests pasen
